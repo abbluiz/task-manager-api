@@ -6,25 +6,9 @@ const app = require('../src/app');
 
 const User = require('../src/models/user');
 
-const userOneId = new mongoose.Types.ObjectId();
-const userOne = {
+const { userOneId, userOne, setupDatabase } = require('../tests/fixtures/db');
 
-    _id: userOneId, 
-    name: 'Tester',
-    email: 'tester@labb.email',
-    password: '56what!!',
-    tokens: [{
-        token: jwt.sign({ _id: userOneId }, process.env.JWT_SECRET)
-    }]
-
-};
-
-beforeEach(async () => {
-
-    await User.deleteMany();
-    await new User(userOne).save();
-
-});
+beforeEach(setupDatabase);
 
 test('Should SignUp a new user', async () => {
 
